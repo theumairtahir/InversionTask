@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 interface FamilyMember {
   id: string;
   name: string;
-  surname: string;
+  surName: string;
   birthDate: Date;
   identityNumber: string;
   children: FamilyMember[];
@@ -29,7 +29,7 @@ export class FamilyTreeComponent {
     {
       id: '1',
       name: 'Grand Parent',
-      surname: '',
+      surName: '',
       birthDate: new Date(570, 3, 22),
       identityNumber: 'M001',
       hasMoreChildren: false,
@@ -37,14 +37,14 @@ export class FamilyTreeComponent {
         {
           id: '2',
           name: 'Person 1',
-          surname: 'PP',
+          surName: 'PP',
           birthDate: new Date(605, 3, 1),
           identityNumber: 'F001',
           children: [
             {
               id: '3',
               name: 'Person 2',
-              surname: 'PP',
+              surName: 'PP',
               birthDate: new Date(605, 3, 1),
               identityNumber: 'H001',
               children: [],
@@ -53,49 +53,49 @@ export class FamilyTreeComponent {
             {
               id: '4',
               name: 'Person 3',
-              surname: 'PP',
+              surName: 'PP',
               birthDate: new Date(605, 3, 1),
               identityNumber: 'H002',
               children: [
                 {
                   id: '5',
                   name: 'Person 4',
-                  surname: 'PP',
+                  surName: 'PP',
                   birthDate: new Date(605, 3, 1),
                   identityNumber: 'Z004',
                   children: [
                     {
                       id: '5',
                       name: 'Person 5',
-                      surname: 'PP',
+                      surName: 'PP',
                       birthDate: new Date(605, 3, 1),
                       identityNumber: 'Z005',
                       children: [
                         {
                           id: '6',
                           name: 'Person 6',
-                          surname: 'PP',
+                          surName: 'PP',
                           birthDate: new Date(605, 3, 1),
                           identityNumber: 'Z006',
                           children: [
                             {
                               id: '7',
                               name: 'Person 7',
-                              surname: 'PP',
+                              surName: 'PP',
                               birthDate: new Date(605, 3, 1),
                               identityNumber: 'Z007',
                               children: [
                                 {
                                   id: '8',
                                   name: 'Person 8',
-                                  surname: 'PP',
+                                  surName: 'PP',
                                   birthDate: new Date(605, 3, 1),
                                   identityNumber: 'Z008',
                                   children: [
                                     {
                                       id: '9',
                                       name: 'Person 9',
-                                      surname: 'PP',
+                                      surName: 'PP',
                                       birthDate: new Date(605, 3, 1),
                                       identityNumber: 'Z009',
                                       children: [],
@@ -158,7 +158,7 @@ export class FamilyTreeComponent {
         node.children.push({
           id: '3',
           name: 'New Child',
-          surname: 'of Node ' + nodeId,
+          surName: 'of Node ' + nodeId,
           birthDate: new Date(),
           identityNumber: 'NC001',
           children: [],

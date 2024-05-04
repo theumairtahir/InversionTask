@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
 
+interface Person {
+  name: string;
+  surName: string;
+  birthDate: Date;
+  identityNumber: string;
+}
+
 @Component({
   selector: 'app-root-ascendant',
   templateUrl: './root-ascendant.component.html',
-  styleUrl: './root-ascendant.component.css'
+  styleUrl: './root-ascendant.component.css',
 })
 export class RootAscendantComponent {
   identityNumber: string = '';
-  grandDaddy: any = null;
+  grandDaddy: Person | null = null;
   loading = false;
   showAlert = false;
   errorMessage = '';
@@ -28,9 +35,9 @@ export class RootAscendantComponent {
       // Simulated API response
       this.grandDaddy = {
         name: 'John',
-        surname: 'Doe',
+        surName: 'Doe',
         birthDate: new Date(1950, 4, 15),
-        identityNumber: this.identityNumber
+        identityNumber: this.identityNumber,
       };
     }, 2000);
   }

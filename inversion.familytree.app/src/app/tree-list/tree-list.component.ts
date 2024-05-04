@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 interface TreeItem {
   id: string;
   name: string;
-  surname: string;
+  surName: string;
   birthDate: Date;
   identityNumber: string;
   children: TreeItem[];

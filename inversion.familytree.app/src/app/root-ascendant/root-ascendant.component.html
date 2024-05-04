@@ -1,35 +1,47 @@
 <div class="container mt-3">
-    <div class="row">
-        <div class="col-md-8">
-            <form class="form-inline" (ngSubmit)="onSubmit()">
-                <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter Identity Number" [(ngModel)]="identityNumber" name="identityNumber" required pattern="[a-zA-Z0-9]+">
-                <button type="submit" class="btn btn-primary mb-2">Search</button>
-            </form>
-        </div>
+  <div class="row">
+    <div class="col-md-8">
+      <form class="form-inline" (ngSubmit)="onSubmit()">
+        <input
+          type="text"
+          class="form-control mb-2 mr-sm-2"
+          placeholder="Enter Identity Number"
+          [(ngModel)]="identityNumber"
+          name="identityNumber"
+          required
+          pattern="[a-zA-Z0-9]+"
+        />
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+      </form>
     </div>
-    <div *ngIf="loading" class="row">
-        <div class="col-md-12 text-center">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="loading" class="row">
+    <div class="col-md-12 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
-    <div *ngIf="showAlert" class="row">
-        <div class="col-md-12">
-            <div class="alert alert-danger" role="alert">
-                {{ errorMessage }}
-            </div>
-        </div>
+  </div>
+  <div *ngIf="showAlert" class="row">
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
     </div>
-    <div *ngIf="grandDaddy" class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ grandDaddy.name }} {{ grandDaddy.surname }}</h5>
-                    <p class="card-text">Birthdate: {{ grandDaddy.birthDate | date }}</p>
-                    <p class="card-text">Identity Number: {{ grandDaddy.identityNumber }}</p>
-                </div>
-            </div>
+  </div>
+  <div *ngIf="grandDaddy" class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ grandDaddy.name }} {{ grandDaddy.surName }}
+          </h5>
+          <p class="card-text">Birthdate: {{ grandDaddy.birthDate | date }}</p>
+          <p class="card-text">
+            Identity Number: {{ grandDaddy.identityNumber }}
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </div>
