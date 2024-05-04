@@ -1,0 +1,33 @@
+<div class="container mt-3">
+  <form (ngSubmit)="onSearch()" class="form-inline">
+    <input
+      type="text"
+      class="form-control mb-2 mr-sm-2"
+      placeholder="Enter Identity Number"
+      [(ngModel)]="identityNumber"
+      name="identityNumber"
+      required
+      pattern="[a-zA-Z0-9]+"
+    />
+    <button type="submit" class="btn btn-primary mb-2">Search</button>
+  </form>
+
+  <div *ngIf="loading" class="text-center mt-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="showAlert" class="alert alert-danger mt-4" role="alert">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="familyTree.length > 0" class="mt-4">
+    <ul class="list-group">
+      <app-tree-list
+        *ngFor="let member of familyTree"
+        [member]="member"
+        [level]="0"
+      ></app-tree-list>
+    </ul>
+  </div>
+</div>

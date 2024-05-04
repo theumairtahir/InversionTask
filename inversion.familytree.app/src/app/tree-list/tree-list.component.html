@@ -1,0 +1,38 @@
+<div *ngIf="member" class="tree-node mb-3 ml-3">
+  <!-- Toggle Button or Label -->
+  <button
+    *ngIf="
+      member.hasMoreChildren || (member.children && member.children.length > 0)
+    "
+    class="btn btn-link p-0 ml-0"
+    (click)="toggleChildren()"
+  >
+    <span
+      [ngClass]="
+        !isExpanded || member.hasMoreChildren ? 'fa fa-plus' : 'fa fa-minus'
+      "
+    ></span>
+  </button>
+
+  <!-- Node Details -->
+  <div class="card p-2">
+    <strong>{{ member.name }} {{ member.surname }}</strong>
+    (Birthdate: {{ member.birthDate | date }}, Identity Number:
+    {{ member.identityNumber }})
+  </div>
+
+  <!-- Render Children Conditionally with Bootstrap Grid or Card -->
+  <div
+    *ngIf="isExpanded && member.children && member.children.length > 0"
+    class="children-container"
+  >
+    <div *ngFor="let child of member.children">
+      <app-tree-list
+        [member]="child"
+        [level]="level + 1"
+        [maxLevels]="maxLevels"
+        (loadMoreEvent)="loadMoreEvent.emit($event)"
+      ></app-tree-list>
+    </div>
+  </div>
+</div>
