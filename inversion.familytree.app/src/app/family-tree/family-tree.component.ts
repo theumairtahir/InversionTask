@@ -22,6 +22,7 @@ export class FamilyTreeComponent {
   showAlert = false;
   errorMessage = '';
   maxLevels = 10;
+  searchCompleted = false;
 
   // Mock family tree data
   mockData: FamilyMember[] = [
@@ -127,6 +128,7 @@ export class FamilyTreeComponent {
     // Add more top-level ancestors here
   ];
   onSearch() {
+    this.searchCompleted = false;
     if (!this.identityNumber.match(/^[a-zA-Z0-9]+$/)) {
       this.showAlert = true;
       this.errorMessage = 'Please enter a valid alphanumeric Identity Number.';
@@ -143,6 +145,7 @@ export class FamilyTreeComponent {
         (member) => member.identityNumber === this.identityNumber
       );
       this.loading = false;
+      this.searchCompleted = true;
     }, 2000);
   }
   // Mock function to load more children for a node
