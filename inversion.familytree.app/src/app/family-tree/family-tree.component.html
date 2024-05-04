@@ -27,6 +27,8 @@
         *ngFor="let member of familyTree"
         [member]="member"
         [level]="0"
+        [maxLevels]="maxLevels"
+        (loadMoreEvent)="loadMore($event)"
       ></app-tree-list>
     </ul>
   </div>
