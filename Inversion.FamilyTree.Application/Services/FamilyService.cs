@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Inversion.FamilyTree.Application.AbstractRepositories;
+﻿using Inversion.FamilyTree.Application.AbstractRepositories;
 using Inversion.FamilyTree.Application.DataObjects;
 using Inversion.FamilyTree.Application.Exceptions;
+using Inversion.FamilyTree.Application.Resolvers;
 using Inversion.FamilyTree.Domain.Entities;
 
 namespace Inversion.FamilyTree.Application.Services;
@@ -12,13 +12,13 @@ public interface IFamilyService
 	Task<PersonDto> SearchRootAncestor(FamilySearchDto familySearchDto);
 }
 
-internal class FamilyService(IFamilyRepository familyRepository, IMapper mapper) : IFamilyService
+internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver resolver) : IFamilyService
 {
 	public async Task<PersonDto> SearchRootAncestor(FamilySearchDto familySearchDto)
 	{
 		var person = await familyRepository.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber) ?? throw new PersonNotFoundException( );
 		var rootAncestor = GetRootAncestor(person);
-		return mapper.Map<PersonDto>(rootAncestor);
+		return resolver.Resolve(rootAncestor);
 	}
 
 	public async Task<FamilyDto> SearchFamilyTree(FamilySearchDto familySearchDto)
@@ -30,7 +30,7 @@ internal class FamilyService(IFamilyRepository familyRepository, IMapper mapper)
 
 	private async Task<FamilyDto> GetFamilyTree(Person person, List<Person> family, int level = 1)
 	{
-		var familyDto = mapper.Map<FamilyDto>(person);
+		var familyDto = resolver.ResolveFamily(person);
 		var children = family.Where(p => p.Father?.Id == person.Id || p.Mother?.Id == person.Id).ToList( );
 		if (children.Count > 0)
 			level++;

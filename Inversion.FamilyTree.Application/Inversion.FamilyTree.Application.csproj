@@ -11,7 +11,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Inversion.FamilyTree.Domain\Inversion.FamilyTree.Domain.csproj" />
+		<ProjectReference Include="..\Inversion.FamilyTree.Domain\Inversion.FamilyTree.Domain.csproj" />
+	</ItemGroup>
+	<!--Allow Internals to be accessed by Inversion.FamilyTree.Tests-->
+	<ItemGroup>
+		<InternalsVisibleTo Include="Inversion.FamilyTree.Tests">
+			<Assembly>$(AssemblyName)</Assembly>
+			<AllInternalsVisible>true</AllInternalsVisible>
+		</InternalsVisibleTo>
 	</ItemGroup>
 
 </Project>

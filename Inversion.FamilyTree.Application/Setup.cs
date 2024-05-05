@@ -1,4 +1,5 @@
 ﻿using Inversion.FamilyTree.Application.DataObjects;
+using Inversion.FamilyTree.Application.Resolvers;
 using Inversion.FamilyTree.Application.Services;
 using Inversion.FamilyTree.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,5 +17,6 @@ public static class Setup
 			config.CreateMap<Person, FamilyDto>( );
 		});
 		services.AddScoped<IFamilyService, FamilyService>( );
+		services.AddScoped<IPersonResolver, PersonResolver>( );
 	}
 }
