@@ -1,4 +1,10 @@
 <div class="container mt-3">
+  <h2>Family Tree Viewer</h2>
+  <p>
+    Use this page to visualize and explore the family tree. Search for a
+    particular identity number to view the relationships.
+  </p>
+
   <form (ngSubmit)="onSearch()" class="form-inline">
     <input
       type="text"
@@ -29,12 +35,14 @@
     No Data to Show!
   </div>
   <div *ngIf="familyTree.length > 0" class="mt-4">
-    <ul class="list-group">
-      <app-tree-list
-        *ngFor="let member of familyTree"
-        [member]="member"
-        (loadMoreEvent)="loadMore($event)"
-      ></app-tree-list>
-    </ul>
+    <div class="tree-container">
+      <ul class="list-group">
+        <app-tree-list
+          *ngFor="let member of familyTree"
+          [member]="member"
+          (loadMoreEvent)="loadMore($event)"
+        ></app-tree-list>
+      </ul>
+    </div>
   </div>
 </div>

@@ -4,6 +4,21 @@
   padding-left: 10px;
 }
 
+/* Add a container with horizontal scrolling */
+.tree-container {
+  overflow-x: auto; /* Allows horizontal scrolling */
+  overflow-y: hidden; /* Prevents vertical scrolling */
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Ensure individual tree nodes are displayed inline */
+.tree-node {
+  display: inline-block; /* Makes each tree node appear horizontally */
+  min-width: 200px; /* Adjust based on your node content */
+  margin-right: 20px; /* Add spacing between nodes */
+  vertical-align: top;
+}
+
 .card {
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
