@@ -14,7 +14,7 @@ interface FamilyMember {
 @Component({
   selector: 'app-family-tree',
   templateUrl: './family-tree.component.html',
-  styleUrl: './family-tree.component.css',
+  styleUrls: ['./family-tree.component.css'],
 })
 export class FamilyTreeComponent {
   identityNumber: string = '';
@@ -22,7 +22,6 @@ export class FamilyTreeComponent {
   loading = false;
   showAlert = false;
   errorMessage = '';
-  maxLevels = 10;
   searchCompleted = false;
   constructor(private familyTreeService: FamilyTreeService) {}
 
@@ -40,7 +39,8 @@ export class FamilyTreeComponent {
 
     this.familyTreeService.getInitialData(this.identityNumber).subscribe({
       next: (data) => {
-        this.familyTree = data;
+        this.familyTree = [];
+        this.familyTree.push(data);
         this.loading = false;
         this.searchCompleted = true;
       },
@@ -59,7 +59,6 @@ export class FamilyTreeComponent {
         const node = this.findNodeById(this.familyTree, nodeId);
         if (node) {
           node.children.push(...newChildren);
-          node.hasMoreChildren = newChildren.length > 0;
         }
         this.loading = false;
       },

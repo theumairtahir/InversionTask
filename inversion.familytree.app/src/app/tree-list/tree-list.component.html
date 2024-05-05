@@ -23,7 +23,7 @@
 
   <!-- Render Children Conditionally with Bootstrap Grid or Card -->
   <div
-    *ngIf="isExpanded && member.children && member.children.length > 0"
+    *ngIf="isExpanded && member.children.length > 0"
     class="children-container"
   >
     <div *ngFor="let child of member.children">

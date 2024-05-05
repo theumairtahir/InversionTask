@@ -20,8 +20,8 @@ export class FamilyTreeService {
 
   constructor(private http: HttpClient) {}
 
-  getInitialData(identityNumber: string): Observable<FamilyMember[]> {
-    return this.http.get<FamilyMember[]>(
+  getInitialData(identityNumber: string): Observable<FamilyMember> {
+    return this.http.get<FamilyMember>(
       `${this.apiBaseUrl}/get-family-tree/${identityNumber}`
     );
   }
