@@ -4,6 +4,7 @@ using Inversion.FamilyTree.Domain.Entities;
 namespace Inversion.FamilyTree.Application.AbstractRepositories;
 public interface IFamilyRepository
 {
-	Task<FamilyDto> GetFamilyByIdentityNumberAsync(string identityNumber);
+	Task<List<Person>> GetPersonFamilyAsync(Person person);
 	Task<Person> GetPersonByIdentityNumberAsync(string identityNumber);
+	Task<bool> CheckIfPersonHasChildrenAsync(int id);
 }
