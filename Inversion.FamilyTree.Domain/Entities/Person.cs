@@ -7,6 +7,6 @@ public class Person
 	public required string SurName { get; set; }
 	public DateOnly BirthDate { get; set; }
 	public required string IdentityNumber { get; set; }
-	public Person? Father { get; set; }
-	public Person? Mother { get; set; }
+	public virtual Person? Father { get; set; }
+	public virtual Person? Mother { get; set; }
 }

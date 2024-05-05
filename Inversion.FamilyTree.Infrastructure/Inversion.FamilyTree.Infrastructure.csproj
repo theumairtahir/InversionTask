@@ -25,4 +25,8 @@
 	  <ProjectReference Include="..\Inversion.FamilyTree.Application\Inversion.FamilyTree.Application.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
+
 </Project>
