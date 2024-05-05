@@ -46,7 +46,7 @@ export class FamilyTreeComponent {
       },
       error: (err) => {
         this.showAlert = true;
-        this.errorMessage = 'Error fetching data: ' + err.message;
+        this.errorMessage = 'Error fetching data: ' + err.error;
         this.loading = false;
         this.searchCompleted = true;
       },
@@ -64,7 +64,7 @@ export class FamilyTreeComponent {
       },
       error: (err) => {
         this.showAlert = true;
-        this.errorMessage = 'Error fetching more data: ' + err.message;
+        this.errorMessage = 'Error fetching more data: ' + err.error;
         this.loading = false;
       },
     });

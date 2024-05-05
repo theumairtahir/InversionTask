@@ -38,7 +38,7 @@ export class RootAscendantComponent {
       },
       error: (err) => {
         this.showAlert = true;
-        this.errorMessage = 'Error fetching data: ' + err.message;
+        this.errorMessage = 'Error fetching data: ' + err.error;
         this.loading = false;
       },
     });
