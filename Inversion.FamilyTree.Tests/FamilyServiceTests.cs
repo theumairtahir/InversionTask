@@ -39,7 +39,7 @@ public class FamilyServiceTests
 			IdentityNumber = "12345678901"
 		};
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);
-		personResolverMock.Setup(x => x.Resolve(It.IsAny<Person>( ))).Returns<Person>(x => new PersonDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.Father?.Id, x.Mother?.Id));
+		personResolverMock.Setup(x => x.Resolve(It.IsAny<Person>( ))).Returns<Person>(x => new PersonDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.FatherId, x.MotherId));
 
 		// Act
 		var result = await familyService.SearchRootAncestor(familySearchDto);
@@ -74,7 +74,7 @@ public class FamilyServiceTests
 				SurName = "Doe",
 				BirthDate = new DateOnly(1990, 1, 1),
 				IdentityNumber = "12345678902",
-				Father = person
+				FatherId = person.Id
 			}
 		};
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);
@@ -121,7 +121,7 @@ public class FamilyServiceTests
 				SurName = "Doe",
 				BirthDate = new DateOnly(1990, 1, 1),
 				IdentityNumber = "12345678902",
-				Father = person
+				FatherId = person.Id
 			}
 		};
 		for (int i = 0; i < 10; i++)
@@ -133,7 +133,7 @@ public class FamilyServiceTests
 				SurName = "Doe",
 				BirthDate = new DateOnly(1990, 1, 1),
 				IdentityNumber = $"1234567890{i + 3}",
-				Father = family[i]
+				FatherId = family[i].Id
 			});
 		}
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);

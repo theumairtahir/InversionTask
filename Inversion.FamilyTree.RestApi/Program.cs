@@ -1,4 +1,6 @@
 using Inversion.FamilyTree.Application;
+using Inversion.FamilyTree.Application.DataObjects;
+using Inversion.FamilyTree.Application.Services;
 using Inversion.FamilyTree.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,29 +34,9 @@ if (app.Environment.IsDevelopment( ))
 
 app.UseHttpsRedirection( );
 
-var summaries = new[ ]
-{
-	"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", ( ) =>
-{
-	var forecast = Enumerable.Range(1, 5).Select(index =>
-		new WeatherForecast
-		(
-			DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-			Random.Shared.Next(-20, 55),
-			summaries[Random.Shared.Next(summaries.Length)]
-		))
-		.ToArray( );
-	return forecast;
-})
-.WithName("GetWeatherForecast")
+app.MapGet("/get-root-ancestor/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchRootAncestor(new FamilySearchDto(identityNumber)))
+.WithName("GetRootAncestor")
 .WithOpenApi( );
 
 app.Run( );
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-	public int TemperatureF => 32 + (int)( TemperatureC / 0.5556 );
-}

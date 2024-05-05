@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inversion.FamilyTree.Infrastructure.Migrations
 {
     [DbContext(typeof(FamilyDbContext))]
-    [Migration("20240505094828_InitDb")]
+    [Migration("20240505103307_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -46,6 +46,9 @@ namespace Inversion.FamilyTree.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("MotherId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,29 +59,10 @@ namespace Inversion.FamilyTree.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FatherId");
-
                     b.HasIndex("IdentityNumber")
                         .IsUnique();
 
                     b.ToTable("People");
-                });
-
-            modelBuilder.Entity("Inversion.FamilyTree.Domain.Entities.Person", b =>
-                {
-                    b.HasOne("Inversion.FamilyTree.Domain.Entities.Person", "Father")
-                        .WithMany()
-                        .HasForeignKey("FatherId");
-
-                    b.HasOne("Inversion.FamilyTree.Domain.Entities.Person", "Mother")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.Navigation("Father");
-
-                    b.Navigation("Mother");
                 });
 #pragma warning restore 612, 618
         }

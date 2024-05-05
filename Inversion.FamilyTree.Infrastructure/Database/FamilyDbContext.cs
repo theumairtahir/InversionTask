@@ -11,12 +11,6 @@ internal class FamilyDbContext(DbContextOptions<FamilyDbContext> options) : DbCo
 		modelBuilder.Entity<Person>(entity =>
 		{
 			entity.HasKey(p => p.Id);
-			entity.HasOne(p => p.Father)
-				.WithMany( )
-				.HasForeignKey(p => p.Id).OnDelete(DeleteBehavior.SetNull);
-			entity.HasOne(p => p.Mother)
-				.WithMany( )
-				.HasForeignKey(p => p.Id).OnDelete(DeleteBehavior.SetNull);
 			entity.HasIndex(p => p.IdentityNumber).IsUnique( );
 		});
 	}

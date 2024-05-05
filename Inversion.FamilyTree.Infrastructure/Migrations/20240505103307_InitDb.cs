@@ -26,27 +26,7 @@ public partial class InitDb : Migration
 			constraints: table =>
 			{
 				table.PrimaryKey("PK_People", x => x.Id);
-				table.ForeignKey(
-					name: "FK_People_People_FatherId",
-					column: x => x.FatherId,
-					principalTable: "People",
-					principalColumn: "Id");
-				table.ForeignKey(
-					name: "FK_People_People_MotherId",
-					column: x => x.MotherId,
-					principalTable: "People",
-					principalColumn: "Id");
 			});
-
-		migrationBuilder.CreateIndex(
-			name: "IX_People_FatherId",
-			table: "People",
-			column: "FatherId");
-
-		migrationBuilder.CreateIndex(
-			name: "IX_People_MotherId",
-			table: "People",
-			column: "MotherId");
 
 		migrationBuilder.CreateIndex(
 			name: "IX_People_IdentityNumber",

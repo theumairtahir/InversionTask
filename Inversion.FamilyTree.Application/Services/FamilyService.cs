@@ -17,7 +17,7 @@ internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver
 	public async Task<PersonDto> SearchRootAncestor(FamilySearchDto familySearchDto)
 	{
 		var person = await familyRepository.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber) ?? throw new PersonNotFoundException( );
-		var rootAncestor = GetRootAncestor(person);
+		var rootAncestor = await GetRootAncestorAsync(person);
 		return resolver.Resolve(rootAncestor);
 	}
 
@@ -31,7 +31,7 @@ internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver
 	private async Task<FamilyDto> GetFamilyTree(Person person, List<Person> family, int level = 1)
 	{
 		var familyDto = resolver.ResolveFamily(person);
-		var children = family.Where(p => p.Father?.Id == person.Id || p.Mother?.Id == person.Id).ToList( );
+		var children = family.Where(p => p.FatherId == person.Id || p.MotherId == person.Id).ToList( );
 		if (children.Count > 0)
 			level++;
 
@@ -44,10 +44,11 @@ internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver
 		return familyDto;
 	}
 
-	private static Person GetRootAncestor(Person person)
+	private async Task<Person> GetRootAncestorAsync(Person person)
 	{
-		if (person.Father is null && person.Mother is null)
+		var ancestor = await familyRepository.GetPersonAsync(person.FatherId ?? person.MotherId);
+		if (ancestor is null)
 			return person;
-		return GetRootAncestor(person.Father ?? person.Mother!);
+		return await GetRootAncestorAsync(ancestor);
 	}
 }

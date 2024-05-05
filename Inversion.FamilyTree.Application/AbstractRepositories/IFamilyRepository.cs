@@ -7,4 +7,5 @@ public interface IFamilyRepository
 	Task<List<Person>> GetPersonFamilyAsync(Person person);
 	Task<Person?> GetPersonByIdentityNumberAsync(string identityNumber);
 	Task<bool> CheckIfPersonHasChildrenAsync(int id);
+	Task<Person?> GetPersonAsync(int? id);
 }
