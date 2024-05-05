@@ -5,6 +5,6 @@ namespace Inversion.FamilyTree.Application.AbstractRepositories;
 public interface IFamilyRepository
 {
 	Task<List<Person>> GetPersonFamilyAsync(Person person);
-	Task<Person> GetPersonByIdentityNumberAsync(string identityNumber);
+	Task<Person?> GetPersonByIdentityNumberAsync(string identityNumber);
 	Task<bool> CheckIfPersonHasChildrenAsync(int id);
 }
