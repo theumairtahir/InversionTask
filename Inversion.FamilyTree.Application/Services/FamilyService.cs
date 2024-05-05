@@ -9,6 +9,7 @@ namespace Inversion.FamilyTree.Application.Services;
 public interface IFamilyService
 {
 	Task<FamilyDto> SearchFamilyTree(FamilySearchDto familySearchDto);
+	Task<FamilyDto> SearchFamilyTree(int personId);
 	Task<PersonDto> SearchRootAncestor(FamilySearchDto familySearchDto);
 }
 
@@ -24,6 +25,13 @@ internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver
 	public async Task<FamilyDto> SearchFamilyTree(FamilySearchDto familySearchDto)
 	{
 		var person = await familyRepository.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber) ?? throw new PersonNotFoundException( );
+		var family = await familyRepository.GetPersonFamilyAsync(person, maxLevels: 10); //reduce levels to improve performance
+		return BuildFamilyTree(resolver.ResolveFamily(person), family);
+	}
+
+	public async Task<FamilyDto> SearchFamilyTree(int personId)
+	{
+		var person = await familyRepository.GetPersonAsync(personId) ?? throw new PersonNotFoundException( );
 		var family = await familyRepository.GetPersonFamilyAsync(person, maxLevels: 10); //reduce levels to improve performance
 		return BuildFamilyTree(resolver.ResolveFamily(person), family);
 	}

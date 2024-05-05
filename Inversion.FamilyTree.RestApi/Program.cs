@@ -33,14 +33,19 @@ if (app.Environment.IsDevelopment( ))
 }
 
 app.UseHttpsRedirection( );
+app.UseCors( );
 
 
-app.MapGet("/get-root-ancestor/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchRootAncestor(new FamilySearchDto(identityNumber)))
+app.MapGet("/api/get-root-ancestor/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchRootAncestor(new FamilySearchDto(identityNumber)))
 .WithName("GetRootAncestor")
 .WithOpenApi( );
 
-app.MapGet("/get-family-tree/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchFamilyTree(new FamilySearchDto(identityNumber)))
+app.MapGet("/api/get-family-tree/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchFamilyTree(new FamilySearchDto(identityNumber)))
 .WithName("GetFamilyTree")
+.WithOpenApi( );
+
+app.MapGet("/api/get-family-tree-node/{personId}", (int personId, IFamilyService familyService) => familyService.SearchFamilyTree(personId))
+.WithName("GetFamilyTreeNode")
 .WithOpenApi( );
 
 app.Run( );

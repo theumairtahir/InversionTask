@@ -29,8 +29,6 @@
     <div *ngFor="let child of member.children">
       <app-tree-list
         [member]="child"
-        [level]="level + 1"
-        [maxLevels]="maxLevels"
         (loadMoreEvent)="loadMoreEvent.emit($event)"
       ></app-tree-list>
     </div>

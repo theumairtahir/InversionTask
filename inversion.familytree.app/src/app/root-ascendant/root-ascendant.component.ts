@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RootAscendantService } from '../root-ascendant.service';
 
 interface Person {
   name: string;
@@ -19,7 +20,7 @@ export class RootAscendantComponent {
   showAlert = false;
   errorMessage = '';
 
-  constructor() {}
+  constructor(private service: RootAscendantService) {}
 
   onSubmit() {
     if (!this.identityNumber.match(/^[a-zA-Z0-9]+$/)) {
@@ -30,15 +31,16 @@ export class RootAscendantComponent {
     }
     this.showAlert = false;
     this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      // Simulated API response
-      this.grandDaddy = {
-        name: 'John',
-        surName: 'Doe',
-        birthDate: new Date(1950, 4, 15),
-        identityNumber: this.identityNumber,
-      };
-    }, 2000);
+    this.service.searchRootAscendant(this.identityNumber).subscribe({
+      next: (data) => {
+        this.loading = false;
+        this.grandDaddy = data;
+      },
+      error: (err) => {
+        this.showAlert = true;
+        this.errorMessage = 'Error fetching data: ' + err.message;
+        this.loading = false;
+      },
+    });
   }
 }

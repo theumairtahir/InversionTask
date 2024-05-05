@@ -17,8 +17,6 @@ interface TreeItem {
 })
 export class TreeListComponent implements OnInit {
   @Input() member: TreeItem | null = null;
-  @Input() level = 0;
-  @Input() maxLevels = 10; // Maximum levels to expand by default
 
   @Output() loadMoreEvent = new EventEmitter<string>();
 
@@ -26,7 +24,7 @@ export class TreeListComponent implements OnInit {
 
   ngOnInit(): void {
     // Determine if the current node should be expanded by default or not
-    if (this.level >= this.maxLevels) {
+    if (this.member?.hasMoreChildren) {
       this.isExpanded = false;
     }
   }
