@@ -39,7 +39,7 @@ public class FamilyServiceTests
 			IdentityNumber = "12345678901"
 		};
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);
-		personResolverMock.Setup(x => x.Resolve(It.IsAny<Person>( ))).Returns<Person>(x => new PersonDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.FatherId, x.MotherId));
+		personResolverMock.Setup(x => x.Resolve(It.IsAny<Person>( ))).Returns<FamilyPersonDto>(x => new PersonDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.FatherId, x.MotherId));
 
 		// Act
 		var result = await familyService.SearchRootAncestor(familySearchDto);
@@ -66,20 +66,22 @@ public class FamilyServiceTests
 			BirthDate = new DateOnly(1990, 1, 1),
 			IdentityNumber = "12345678901"
 		};
-		var family = new List<Person>
+		var family = new List<FamilyPersonDto>
 		{
-			new( ) {
+			new()
+			{
 				Id = 2,
 				Name = "Jane",
 				SurName = "Doe",
-				BirthDate = new DateOnly(1990, 1, 1),
-				IdentityNumber = "12345678902",
-				FatherId = person.Id
+				 BirthDate = new DateOnly(1990, 1, 1),
+				 IdentityNumber = "12345678902",
+				 FatherId = person.Id,
+				 HasMoreChildren = false
 			}
 		};
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);
-		familyRepositoryMock.Setup(x => x.GetPersonFamilyAsync(person)).ReturnsAsync(family);
-		personResolverMock.Setup(x => x.ResolveFamily(It.IsAny<Person>( ))).Returns<Person>(x => new FamilyDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber));
+		familyRepositoryMock.Setup(x => x.GetPersonFamilyAsync(person, 10)).ReturnsAsync(family);
+		personResolverMock.Setup(x => x.ResolveFamilyPerson(It.IsAny<FamilyPersonDto>( ))).Returns<FamilyPersonDto>(x => new FamilyDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.HasMoreChildren));
 
 		// Act
 		var result = await familyService.SearchFamilyTree(familySearchDto);
@@ -112,34 +114,36 @@ public class FamilyServiceTests
 			BirthDate = new DateOnly(1990, 1, 1),
 			IdentityNumber = "12345678901"
 		};
-		var family = new List<Person>
+		var family = new List<FamilyPersonDto>
 		{
-			new( )
+			new()
 			{
 				Id = 2,
 				Name = "Jane",
 				SurName = "Doe",
-				BirthDate = new DateOnly(1990, 1, 1),
-				IdentityNumber = "12345678902",
-				FatherId = person.Id
+				 BirthDate = new DateOnly(1990, 1, 1),
+				 IdentityNumber = "12345678902",
+				 FatherId = person.Id,
+				 HasMoreChildren = false
 			}
 		};
 		for (int i = 0; i < 10; i++)
 		{
-			family.Add(new Person
+			family.Add(new( )
 			{
 				Id = i + 3,
 				Name = "Child",
 				SurName = "Doe",
-				BirthDate = new DateOnly(1990, 1, 1),
 				IdentityNumber = $"1234567890{i + 3}",
-				FatherId = family[i].Id
+				FatherId = family[i].Id,
+				HasMoreChildren = i < 9,
+				BirthDate = new DateOnly(1990, 1, 1),
 			});
 		}
 		familyRepositoryMock.Setup(x => x.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber)).ReturnsAsync(person);
-		familyRepositoryMock.Setup(x => x.GetPersonFamilyAsync(person)).ReturnsAsync(family);
+		familyRepositoryMock.Setup(x => x.GetPersonFamilyAsync(person, 10)).ReturnsAsync(family);
 		familyRepositoryMock.Setup(x => x.CheckIfPersonHasChildrenAsync(It.IsAny<int>( ))).ReturnsAsync(true);
-		personResolverMock.Setup(x => x.ResolveFamily(It.IsAny<Person>( ))).Returns<Person>(x => new FamilyDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber));
+		personResolverMock.Setup(x => x.ResolveFamily(It.IsAny<Person>( ))).Returns<FamilyPersonDto>(x => new FamilyDto(x.Id, x.Name, x.SurName, x.BirthDate, x.IdentityNumber, x.HasMoreChildren));
 
 		// Act
 		var result = await familyService.SearchFamilyTree(familySearchDto);
@@ -150,7 +154,6 @@ public class FamilyServiceTests
 		Assert.That(result.Name, Is.EqualTo("John"));
 		Assert.That(result.SurName, Is.EqualTo("Doe"));
 		Assert.That(result.BirthDate, Is.EqualTo(new DateOnly(1990, 1, 1)));
-		//validate that the last level's 'HasMoreChildren' Flag is 'true'
 
 	}
 

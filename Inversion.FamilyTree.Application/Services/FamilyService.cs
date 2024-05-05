@@ -24,23 +24,15 @@ internal class FamilyService(IFamilyRepository familyRepository, IPersonResolver
 	public async Task<FamilyDto> SearchFamilyTree(FamilySearchDto familySearchDto)
 	{
 		var person = await familyRepository.GetPersonByIdentityNumberAsync(familySearchDto.IdentityNumber) ?? throw new PersonNotFoundException( );
-		var family = await familyRepository.GetPersonFamilyAsync(person);
-		return await GetFamilyTree(person, family);
+		var family = await familyRepository.GetPersonFamilyAsync(person, 3); //fetching 3 levels deep due to performance reasons
+		return await GetFamilyTree(resolver.ResolveFamily(person), family);
 	}
 
-	private async Task<FamilyDto> GetFamilyTree(Person person, List<Person> family, int level = 1)
+	private async Task<FamilyDto> GetFamilyTree(FamilyDto familyDto, List<FamilyPersonDto> family)
 	{
-		var familyDto = resolver.ResolveFamily(person);
-		var children = family.Where(p => p.FatherId == person.Id || p.MotherId == person.Id).ToList( );
-		if (children.Count > 0)
-			level++;
-
+		var children = family.Where(p => p.FatherId == familyDto.Id || p.MotherId == familyDto.Id).ToList( );
 		foreach (var child in children)
-			familyDto.Children.Add(await GetFamilyTree(child, family, level));
-
-		if (level is 10)
-			familyDto.HasMoreChildren = await familyRepository.CheckIfPersonHasChildrenAsync(familyDto.Id);
-
+			familyDto.Children.Add(await GetFamilyTree(resolver.ResolveFamilyPerson(child), family));
 		return familyDto;
 	}
 

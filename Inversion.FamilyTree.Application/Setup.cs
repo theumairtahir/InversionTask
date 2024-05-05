@@ -12,7 +12,8 @@ public static class Setup
 		services.AddAutoMapper(config =>
 		{
 			config.CreateMap<Person, PersonDto>( );
-			config.CreateMap<Person, FamilyDto>( );
+			config.CreateMap<Person, FamilyDto>( ).ForCtorParam(nameof(FamilyDto.HasMoreChildren), o => o.MapFrom(p => false));
+			config.CreateMap<FamilyPersonDto, FamilyDto>( );
 		});
 		services.AddScoped<IFamilyService, FamilyService>( );
 		services.AddScoped<IPersonResolver, PersonResolver>( );

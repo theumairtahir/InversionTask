@@ -39,4 +39,8 @@ app.MapGet("/get-root-ancestor/{identityNumber}", (string identityNumber, IFamil
 .WithName("GetRootAncestor")
 .WithOpenApi( );
 
+app.MapGet("/get-family-tree/{identityNumber}", (string identityNumber, IFamilyService familyService) => familyService.SearchFamilyTree(new FamilySearchDto(identityNumber)))
+.WithName("GetFamilyTree")
+.WithOpenApi( );
+
 app.Run( );

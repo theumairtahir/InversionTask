@@ -1,4 +1,5 @@
 ﻿using Inversion.FamilyTree.Application.AbstractRepositories;
+using Inversion.FamilyTree.Application.DataObjects;
 using Inversion.FamilyTree.Domain.Entities;
 using Inversion.FamilyTree.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -9,5 +10,5 @@ internal class FamilyRepository(FamilyDbContext dbContext) : IFamilyRepository
 	public async Task<bool> CheckIfPersonHasChildrenAsync(int id) => id > 0 && await dbContext.People.AnyAsync(x => ( x.FatherId == id ) || ( x.MotherId == id ));
 	public async Task<Person?> GetPersonAsync(int? id) => id is not null ? await dbContext.People.SingleAsync(x => x.Id == id) : null;
 	public Task<Person?> GetPersonByIdentityNumberAsync(string identityNumber) => dbContext.People.SingleOrDefaultAsync(x => x.IdentityNumber == identityNumber);
-	public Task<List<Person>> GetPersonFamilyAsync(Person person) => throw new NotImplementedException( );
+	public Task<List<FamilyPersonDto>> GetPersonFamilyAsync(Person person, int maxLevels = 10) => dbContext.Database.SqlQuery<FamilyPersonDto>($"EXEC GetDescendantsByIdentityNumber @Id = {person.Id}, @MaxLevels = {maxLevels}").ToListAsync( );
 }
